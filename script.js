@@ -11,24 +11,46 @@ let deleteKey = document.getElementById("delete");
 let valueWindow = document.getElementById("input");
 let equalOn = false;
 
-fullClear.addEventListener("click", () => {
-    valueWindow.value = "";
-    equalOn = true;
-})
+//Delete all numbers
+fullClear.addEventListener("click", clearWindows());
 
+//Erase Single Digit
+deleteKey.addEventListener("click", () => {
+    valueWindow.value = valueWindow.value.substr(0, input.value.length - 1);
+});
 
+//Add keys
 keys.forEach((button_class) => {
     button_class.addEventListener("click", () => {
         if(equalOn){
-            valueWindow.value = "";
+            clearWindows();
             equalOn = false;
-        } else if(button_class.value = "."){
+        } else if(button_class.value == "."){
             var aux = valueWindow + "."
         }
         valueWindow.value += button_class.value;
     })
-})
+});
 
 equal.addEventListener("click", () => {
-    valueWindow.value = math.evaluation(valueWindow);
-})
+    equalOn = true;
+
+    var res = valueWindow.value;
+    
+    try {
+        var solution = eval(res);
+
+        if(Number.isInteger(solution)){
+            valueWindow.value = solution;
+        } else {
+            valueWindow.value = solution.toFixed(2);
+        }
+    } catch (err) {
+        alert("Error. Invalid Input");
+        clearWindows();
+    }
+});
+
+function clearWindows(){
+    valueWindow.value = "";
+}
